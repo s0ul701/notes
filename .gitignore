@@ -1,0 +1,7 @@
+/server/staticfiles
+/server/media
+.vscode
+*.log
+*.pyc
+**/__pycache__/
+.env

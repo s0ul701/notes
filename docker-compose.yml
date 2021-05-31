@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver_plus 0.0.0.0:8000
+    volumes:
+      - ./server:/server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    env_file:
+      - ./.envs/.server
+      - ./.envs/.mongodb
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo:4.4.6
+    env_file:
+      - ./.envs/.mongodb
