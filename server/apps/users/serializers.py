@@ -1,4 +1,4 @@
-from typing import OrderedDict
+from typing import Dict, OrderedDict
 
 from rest_framework import serializers
 
@@ -15,8 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
                 'password_confirmation': 'Password mismatch!',
             })
         return user_data
-    
-    def create(self, validated_data):
+
+    def create(self, validated_data: Dict):
         return User.objects.create_user(**validated_data)
 
     class Meta:

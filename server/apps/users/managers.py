@@ -5,9 +5,8 @@ from django.conf import settings
 
 class CustomUserManager(DjongoManager):
     def create_user(self, username: str, password: str):
-        user = self.model(
+        user = super().create(
             username=username,
             password=make_password(password, settings.SECRET_KEY),
         )
-        user.save()
         return user

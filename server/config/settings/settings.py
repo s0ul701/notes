@@ -130,4 +130,6 @@ AUTHENTICATION_BACKENDS = ('apps.users.auth.AuthBackend',)
 # JWT auth settings
 ##################################################################
 
-SIMPLE_JWT = {'USER_AUTHENTICATION_RULE': lambda user: user is not None}
+SIMPLE_JWT = {
+    'USER_AUTHENTICATION_RULE': lambda user: user is not None
+}
