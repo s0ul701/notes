@@ -104,6 +104,30 @@ if DEBUG:
     from .installed_apps import INSTALLED_APPS
 
     DEBUG_TOOLBAR_CONFIG = {'SHOW_TOOLBAR_CALLBACK': lambda _: True}
-    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE
+    MIDDLEWARE = [
+        'debug_toolbar.middleware.DebugToolbarMiddleware'
+    ] + MIDDLEWARE
     INSTALLED_APPS += ['debug_toolbar', 'django_extensions']
     INTERNAL_IPS = ['0.0.0.0', '127.0.0.1', 'localhost']
+
+##################################################################
+# DRF settings
+##################################################################
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('apps.users.auth.JWTAuth',),
+}
+
+##################################################################
+# Django auth settings
+##################################################################
+
+AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = ('apps.users.auth.AuthBackend',)
+
+##################################################################
+# JWT auth settings
+##################################################################
+
+SIMPLE_JWT = {'USER_AUTHENTICATION_RULE': lambda user: user is not None}

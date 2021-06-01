@@ -6,9 +6,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'rest_framework',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = ['apps.users']
 
 INSTALLED_APPS += LOCAL_APPS
 
