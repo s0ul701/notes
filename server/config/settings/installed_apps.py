@@ -9,7 +9,7 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-LOCAL_APPS = ['apps.users']
+LOCAL_APPS = ['apps.users', 'apps.notes',]
 
 INSTALLED_APPS += LOCAL_APPS
 
