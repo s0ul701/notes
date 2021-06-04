@@ -4,10 +4,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.hashers import make_password
-
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import (
-    AuthenticationFailed, InvalidToken,
+    AuthenticationFailed, InvalidToken
 )
 from rest_framework_simplejwt.settings import api_settings
 from rest_framework_simplejwt.tokens import AccessToken
@@ -19,8 +18,8 @@ class AuthBackend(BaseBackend):
     def authenticate(
         self,
         _,
-        username: str=None,
-        password: str=None
+        username: str = None,
+        password: str = None
     ) -> Optional[User]:
 
         UserModel = get_user_model()
