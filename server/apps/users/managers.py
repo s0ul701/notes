@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from djongo.models import DjongoManager
-from django.conf import settings
 
 
 class CustomUserManager(DjongoManager):

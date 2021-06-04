@@ -1,14 +1,15 @@
 import os
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).parents[2]
 WSGI_APPLICATION = 'config.wsgi.application'
 ROOT_URLCONF = 'config.urls'
-SITE_ID=1
+SITE_ID = 1
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = [host for host in os.environ.get('ALLOWED_HOSTS').split(',')]
+SECRET_KEY = os.environ.get('SECRET_KEY', 'SECRET_KEY')
+ALLOWED_HOSTS = [
+    host for host in os.environ.get('ALLOWED_HOSTS', '0.0.0.0').split(',')
+]
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ##################################################################
@@ -108,7 +109,7 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware'
     ] + MIDDLEWARE
     INSTALLED_APPS += ['debug_toolbar', 'django_extensions']
-    INTERNAL_IPS = ['0.0.0.0', '127.0.0.1', 'localhost']
+    INTERNAL_IPS = ('0.0.0.0', '127.0.0.1', 'localhost')
 
 ##################################################################
 # DRF settings
@@ -133,3 +134,15 @@ AUTHENTICATION_BACKENDS = ('apps.users.auth.AuthBackend',)
 SIMPLE_JWT = {
     'USER_AUTHENTICATION_RULE': lambda user: user is not None
 }
+
+##################################################################
+# Notification settings
+##################################################################
+
+NOTIFICATION_TIME_HOURS = 3
+
+##################################################################
+# TZ settings
+##################################################################
+
+TIME_ZONE = 'Europe/Moscow'
