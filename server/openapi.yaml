@@ -1,0 +1,324 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Notes
+
+servers:
+  - url: http://0.0.0.0:1337/api/v1
+
+tags:
+  - name: users
+    description: Набор эндпоинтов, отвечающих за взаимодействие с `Пользователями`
+  - name: notes
+    description: Набор эндпоинтов, отвечающих за взаимодействие с `Заметками`
+  - name: tags
+    description: Набор эндпоинтов, отвечающих за взаимодействие с `Тегами (Темами)`
+  
+
+paths:
+  /users/:
+    post:
+      tags:
+        - users
+      summary: Создание `Пользователя`
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/UserCreate"}
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/UserRetrieve"}
+  /users/token/:
+    post:
+      tags:
+        - users
+      summary: Получение токена `Пользователя`
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/UserGetToken"}
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/Token"}
+
+  /notes/:
+    get:
+      tags:
+        - notes
+      summary: Получение списка `Заметок`
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: search
+          schema: {type: string}
+          description: Поиск `Заметок` по заголовку, тексту, имени `Тега`
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/NoteRetrieve"}
+    post:
+      tags:
+        - notes
+      summary: Создание `Заметки`
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/NoteCreate"}
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/NoteRetrieve"}
+  /notes/notifications/:
+    get:
+      tags:
+        - notes
+      summary: Получение списка `Напоминаний`
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/NoteRetrieve"}
+  /notes/{id}:
+    get:
+      tags:
+        - notes
+      summary: Получение `Заметки`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Заметки`
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/NoteRetrieve"}
+    patch:
+      tags:
+        - notes
+      summary: Обновление `Заметки`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Заметки`
+          required: true
+          schema: {type: integer}
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/NoteCreate"}
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NoteRetrieve"
+    delete:
+      tags:
+        - notes
+      summary: Удаление `Заметки`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Заметки`
+          required: true
+          schema: {type: integer}
+      responses:
+        "204":
+          description: ""
+
+  /tags/:
+    get:
+      tags:
+        - tags
+      summary: Получение списка `Тегов`
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/TagRetrieve"}
+    post:
+      tags:
+        - tags
+      summary: Создание `Тега`
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/TagCreate"}
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/TagRetrieve"}
+  /tags/{id}:
+    get:
+      tags:
+        - tags
+      summary: Получение `Тега`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Тега`
+          required: true
+          schema: {type: integer}
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: "#/components/schemas/TagRetrieve"}
+    patch:
+      tags:
+        - tags
+      summary: Обновление `Тега`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Тега`
+          required: true
+          schema: {type: integer}
+      requestBody:
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/TagCreate"}
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagRetrieve"
+    delete:
+      tags:
+        - tags
+      summary: Удаление `Заметки`
+      security:
+        - bearerAuth: []
+      operationId: id
+      parameters:
+        - name: id
+          in: path
+          description: ID `Заметки`
+          required: true
+          schema: {type: integer}
+      responses:
+        "204":
+          description: ""
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserCreate:
+      type: object
+      properties:
+        username: {type: string}
+        password: {type: string}
+        password_confirmation: {type: string}
+    UserRetrieve:
+      type: object
+      properties:
+        username: {type: string}
+    UserGetToken:
+      type: object
+      properties:
+        username: {type: string}
+        password: {type: string}
+    Token:
+      properties:
+        refresh: {type: string}
+        access: {type: string}
+    
+    NoteCreate:
+      type: object
+      properties:
+        headline: {type: string}
+        text: {type: string}
+        tags:
+          type: array
+          items: {type: integer}
+        start_at: 
+          type: string
+          format: date-time
+    NoteRetrieve:
+      type: object
+      properties:
+        id: {type: integer}
+        headline: {type: string}
+        text: {type: string}
+        tags:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: {type: integer}
+              name: {type: string}
+        start_at: 
+          type: string
+          format: date-time
+  
+    TagCreate:
+        type: object
+        properties:
+          name: {type: string}
+    TagRetrieve:
+      type: object
+      properties:
+        id: {type: integer}
+        name: {type: string}
