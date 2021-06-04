@@ -1,21 +1,30 @@
 version: '3.3'
 services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    depends_on:
+      - server
+    ports:
+      - 1337:1337
+    env_file:
+      - ./.envs/.server
+
   server:
     build:
       context: ./server
       dockerfile: ./Dockerfile
-    command: python manage.py runserver_plus 0.0.0.0:8000
+    command: gunicorn config.wsgi -c ./config/gunicorn.py
     volumes:
       - ./server:/server
-    ports:
-      - "8000:8000"
+    expose: 
+      - 8000
     depends_on:
       - mongodb
     env_file:
       - ./.envs/.server
       - ./.envs/.mongodb
-    links:
-      - mongodb
 
   mongodb:
     image: mongo:4.4.6
